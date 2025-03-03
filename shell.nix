@@ -3,11 +3,12 @@ let
 in
   pkgs.mkShell {
     buildInputs = with pkgs; [
-    	gcc
+   	gcc
 	valgrind
 	gnumake
 	qemu_full
 	python3
+    cmake
     ];
   }
 
