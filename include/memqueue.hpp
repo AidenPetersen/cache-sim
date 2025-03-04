@@ -1,26 +1,25 @@
 #ifndef MEMQUEUE_H_
 #define MEMQUEUE_H_
 
-#include<cstdint>
-#include<string>
-#include<fstream>
+#include <cstdint>
+#include <fstream>
+#include <string>
 
-enum MemOpType {LOAD, STORE};
+enum QueueOpType { LOAD, STORE, DONE };
 
 typedef struct {
-    MemOpType type;
-    uint64_t addr;
-    uint64_t size;
+  QueueOpType type;
+  uint64_t addr;
+  uint64_t size;
 } MemOp;
 
 class MemQueue {
-    private:
-        std::ifstream file;
+private:
+  std::ifstream file;
 
-    public:
-        MemQueue(std::string& file);
-        MemOp next_access();
+public:
+  MemQueue(std::string &file);
+  MemOp next_access();
 };
-
 
 #endif // MEMQUEUE_H_

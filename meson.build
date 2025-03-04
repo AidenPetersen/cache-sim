@@ -2,7 +2,7 @@ project('cache_sim', 'cpp',
     version : '0.1',
     license : [ 'MIT' ],
     meson_version : '>= 1.5.0',
-    default_options : [ 'warning_level=3', 'buildtype=debugoptimized', 'cpp_std=c++17' ]
+    default_options : [ 'warning_level=3', 'buildtype=debugoptimized', 'cpp_std=c++20' ]
 )
 
 # Variables tracking sources and libraries
@@ -13,10 +13,19 @@ project_sources = [
     # memqueue
     'src/memqueue.cpp',
 
+    # caches
+    'src/caches/simple_direct.cpp',
+
 ]
+
 project_headers = [
     # memqueue
-    'include/memqueue.hpp'
+    'include/memqueue.hpp',
+
+    # caches
+    'include/caches/cache.hpp',
+    'include/caches/replacement.hpp',
+    'include/caches/cache_stats.hpp',
 ]
 
 headers = include_directories('include')
