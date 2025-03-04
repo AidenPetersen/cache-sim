@@ -8,7 +8,7 @@ in
 	gnumake
 	qemu_full
 	python3
-    cmake
+    meson
     ];
   }
 
