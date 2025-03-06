@@ -1,6 +1,7 @@
 #ifndef MEMQUEUE_H_
 #define MEMQUEUE_H_
 
+#include <iostream>
 #include <cstdint>
 #include <fstream>
 #include <string>

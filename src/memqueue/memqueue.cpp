@@ -1,5 +1,4 @@
-#include "memqueue.hpp"
-#include <iostream>
+#include "memqueue/memqueue.hpp"
 
 MemQueue::MemQueue(std::string &filename) {
   file.open(filename);

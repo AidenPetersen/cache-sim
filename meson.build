@@ -1,7 +1,7 @@
 project('cache_sim', 'cpp',
     version : '0.1',
     license : [ 'MIT' ],
-    meson_version : '>= 1.5.0',
+    meson_version : '>= 1.4.0',
     default_options : [ 'warning_level=3', 'buildtype=debugoptimized', 'cpp_std=c++20' ]
 )
 
@@ -10,22 +10,31 @@ library_path = []
 project_sources = [
     # main
     'src/main.cpp',
+
+    # utils
+    'src/utils.cpp',
+
+    # cache configuration
+    'src/config.cpp',
+
     # memqueue
-    'src/memqueue.cpp',
-
-    # caches
-    'src/caches/simple_direct.cpp',
-
+    'src/memqueue/memqueue.cpp',
 ]
 
 project_headers = [
     # memqueue
-    'include/memqueue.hpp',
+    'include/memqueue/memqueue.hpp',
 
-    # caches
-    'include/caches/cache.hpp',
-    'include/caches/replacement.hpp',
-    'include/caches/cache_stats.hpp',
+    # utils
+    'include/utils.cpp',
+
+    # cache configuration headers
+    'include/config.hpp',
+    'include/cache_stats.hpp',
+
+    # Cache structure files
+    'include/structures/structures.hpp',
+    'include/structures/replacement.hpp',
 ]
 
 headers = include_directories('include')
@@ -41,5 +50,5 @@ project_target = executable(
     meson.project_name(),
     project_sources,
     include_directories : headers,
-    c_args : build_args
+    c_args : build_args,
 )

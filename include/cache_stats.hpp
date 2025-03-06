@@ -4,6 +4,7 @@
 #include <map>
 #include <memory>
 #include <string>
+
 typedef enum { STRING, FLOAT, INT } StatDataTag;
 
 typedef struct {

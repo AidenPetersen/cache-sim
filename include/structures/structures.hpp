@@ -1,60 +1,56 @@
 #ifndef STRUCTURES_H_
 #define STRUCTURES_H_
 
+#include <algorithm>
 #include <array>
-#include <concepts>
 #include <cstdint>
 
-#include "replacement.hpp"
+#include "structures/replacement.hpp"
+#include "utils.hpp"
+
 
 class ICacheStructure {
 public:
-  ~ICacheStructure();
+  virtual ~ICacheStructure();
 
   virtual bool read(uint64_t addr, uint64_t size);
   virtual bool write(uint64_t addr, uint64_t size);
 };
 
-template <int block_size> class StandardCacheLine {
-private:
-  bool invalid;
-  uint64_t tag;
-
-public:
-  bool hit(int64_t addr) {
-    if (invalid) {
-      return false;
-    }
-    return tag >> block_size == addr >> block_size;
-  }
-  void invalidate() { invalid = true; }
-  void update(int64_t addr) {
-    invalid = false;
-    tag = addr >> block_size;
-  }
-};
-
-template <int block_size, int ways, typename RP>
-  requires std::derived_from<RP, IReplacementPolicy>
-class StandardCacheSet {
-private:
-  std::array<StandardCacheLine<block_size>, ways> lines;
-  IReplacementPolicy rp;
-
-public:
-  StandardCacheSet() {
-
-    for (int i = 0; i < ways; i++) {
-      lines[i] = StandardCacheLine<block_size>();
-      rp = RP();
-    }
-  }
-};
-
-template <int block_size, int ways, int addr>
+template <int block_size, int ways, int addr_exp, typename RP>
 class StandardCacheStructure : public ICacheStructure {
+private:
+  std::array<RP, EXPTOSIZE(addr_exp)> sets;
 
 public:
+  StandardCacheStructure() {
+    static_assert(std::is_base_of<IReplacementPolicy, RP>::value,
+                  "RP must be derived from IReplacementPolicy");
+    std::fill(sets.begin(), sets.end(), RP(ways));
+  }
+
+    virtual bool read(uint64_t addr, uint64_t size){
+      uint64_t index = (addr >> (block_size - 1));
+      int tag_exp = 64 - block_size - addr_exp;
+      // clear tag
+      index = (index << tag_exp) >> tag_exp;
+
+      RP rp = sets[index];
+      RPQueryResponse rq = rp.query_read(addr);
+      return rp.hit;
+
+    };
+    virtual bool write(uint64_t addr, uint64_t size){
+      uint64_t index = (addr >> (block_size - 1));
+      int tag_exp = 64 - block_size - addr_exp;
+      // clear tag
+      index = (index << tag_exp) >> tag_exp;
+
+      RP rp = sets[index];
+      RPQueryResponse rq = rp.query_write(addr);
+      return rp.hit;
+    };
+
 };
 
 #endif // STRUCTURES_H_
