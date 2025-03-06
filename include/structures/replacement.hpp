@@ -11,7 +11,9 @@
 
 typedef struct {
   int way;
-  bool hit;} RPQueryResponse;
+  bool evicted;
+  bool hit;
+} RPQueryResponse;
 
 typedef struct {
   bool invalid;
@@ -19,10 +21,10 @@ typedef struct {
 } RPSetData;
 
 // Handles cache set and replacement
-class IReplacementPolicy {
+class [[maybe_unused]] IReplacementPolicy {
 public:
-    virtual RPQueryResponse query_read(uint64_t addr) = 0;
-    virtual RPQueryResponse query_write(uint64_t addr) = 0;
+  virtual RPQueryResponse query_read(uint64_t addr) = 0;
+  virtual RPQueryResponse query_write(uint64_t addr) = 0;
 
   virtual ~IReplacementPolicy() {}
 };
@@ -33,8 +35,9 @@ private:
   int block_size;
 
 public:
-  RandomReplacement() { srand(0); }
-  RandomReplacement(int ways, int block_size) {
+  RandomReplacement() : block_size(1) { srand(0); }
+  RandomReplacement(int ways, [[maybe_unused]] int block_size)
+      : block_size(block_size) {
     set_data = std::vector<RPSetData>(ways);
     RPSetData invalid;
     invalid.invalid = true;
@@ -45,10 +48,11 @@ public:
   // Read/Write query w/ addr. Updates state and returns if hit or not.
   RPQueryResponse gen_query(uint64_t addr) {
     // Make addr ignore block
-    addr = addr >> (block_size - 1);
+    addr = addr >> block_size;
 
     int ways = set_data.size();
     RPQueryResponse qs;
+    qs.evicted = false;
     // Check for hit
     for (int i = 0; i < ways; i++) {
       if (!set_data[i].invalid && set_data[i].addr == addr) {
@@ -71,6 +75,7 @@ public:
     // Choose random entry and evict
     qs.way = rand() % ways;
     qs.hit = false;
+    qs.evicted = true;
 
     set_data[qs.way].invalid = false;
     set_data[qs.way].addr = addr;
