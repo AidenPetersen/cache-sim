@@ -3,7 +3,7 @@
 #include "cache_stats.hpp"
 #include <memory>
 
-typedef enum { MEM_READ, MEM_WRITE } MemRequest;
+enum MemRequest{ MEM_READ, MEM_WRITE };
 
 // Set methods in config.cpp for your cache implementation
 class Config {
@@ -16,7 +16,7 @@ public:
   Config();
   ~Config();
   void request(MemRequest req, uint64_t addr, uint64_t size, int core = 0);
-  StatDataMap get_stats();
+  std::shared_ptr<StatDataMap> get_stats();
 };
 
 #endif // CONFIG_H_

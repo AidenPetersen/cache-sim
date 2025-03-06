@@ -11,8 +11,7 @@
 
 typedef struct {
   int way;
-  bool hit;
-} RPQueryResponse;
+  bool hit;} RPQueryResponse;
 
 typedef struct {
   bool invalid;
@@ -22,10 +21,10 @@ typedef struct {
 // Handles cache set and replacement
 class IReplacementPolicy {
 public:
-  virtual RPQueryResponse query_read(uint64_t addr);
-  virtual RPQueryResponse query_write(uint64_t addr);
+    virtual RPQueryResponse query_read(uint64_t addr) = 0;
+    virtual RPQueryResponse query_write(uint64_t addr) = 0;
 
-  virtual ~IReplacementPolicy();
+  virtual ~IReplacementPolicy() {}
 };
 
 class RandomReplacement : public IReplacementPolicy {
@@ -34,6 +33,7 @@ private:
   int block_size;
 
 public:
+  RandomReplacement() { srand(0); }
   RandomReplacement(int ways, int block_size) {
     set_data = std::vector<RPSetData>(ways);
     RPSetData invalid;

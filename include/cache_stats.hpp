@@ -4,18 +4,41 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <iostream>
+
+#include "structures/structures.hpp"
+#include "structures/replacement.hpp"
 
 typedef enum { STRING, FLOAT, INT } StatDataTag;
 
-typedef struct {
+
+struct StatData {
+public:
   StatDataTag sdt;
   union {
-    std::string s;
-    uint64_t i;
+    //std::string s;
+    int64_t i;
     double f;
   };
-} StatData;
 
-typedef std::shared_ptr<std::map<std::string, StatData>> StatDataMap;
+    StatData(){}
+
+  explicit StatData(int64_t val) {
+    sdt = INT;
+    i = val;
+  }
+
+  //StatData(std::string val) {
+  //  sdt = STRING;
+  //  s = val;
+  //}
+
+  explicit StatData(double val) {
+    sdt = FLOAT;
+    f = val;
+  }
+};
+
+typedef std::map<std::string, StatData> StatDataMap;
 
 #endif // CACHE_STATS_H_

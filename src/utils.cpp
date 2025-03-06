@@ -1,5 +1,4 @@
 #include "utils.hpp"
-#include <cassert>
 
 MemRequest op2req(QueueOpType op) {
   if (op == LOAD) {

@@ -26,7 +26,7 @@ project_headers = [
     'include/memqueue/memqueue.hpp',
 
     # utils
-    'include/utils.cpp',
+    'include/utils.hpp',
 
     # cache configuration headers
     'include/config.hpp',

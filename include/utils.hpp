@@ -4,7 +4,7 @@
 #include "config.hpp"
 #include "memqueue/memqueue.hpp"
 
-#define EXPTOSIZE(exp) 1 << (exp - 1)
+#define EXPTOSIZE(exp) (1 << (exp - 1))
 
 MemRequest op2req(QueueOpType op);
 
