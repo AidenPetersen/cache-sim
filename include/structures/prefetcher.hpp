@@ -63,9 +63,9 @@ public:
   virtual void prefetch_complete() {
     uint64_t offset = 1 << (block_size - 1);
     cache->put(prefetch_addr + 1 * offset);
-    //cache->put(prefetch_addr + 2 * offset);
-    //cache->put(prefetch_addr + 3 * offset);
-    //cache->put(prefetch_addr + 4 * offset);
+    cache->put(prefetch_addr + 2 * offset);
+    cache->put(prefetch_addr + 3 * offset);
+    cache->put(prefetch_addr + 4 * offset);
     is_prefetching = false;
   }
 };

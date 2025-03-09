@@ -4,19 +4,19 @@
 #include <iostream>
 #include <cstdio>
 
-#define L1_BLOCK_SIZE 4
-#define L1_WAYS 4
+#define L1_BLOCK_SIZE 6
+#define L1_WAYS 2
 #define L1_INDEX 1024
 #define L1_REPLACEMENT_POLICY RandomReplacement
 #define L1_HIT_CYCLES 3
 
-#define L2_BLOCK_SIZE 4
-#define L2_WAYS 4
-#define L2_INDEX 8096
+#define L2_BLOCK_SIZE 6
+#define L2_WAYS 8
+#define L2_INDEX 4096
 #define L2_REPLACEMENT_POLICY RandomReplacement
 #define L2_HIT_CYCLES 8
 
-#define ENABLE_PREFETCH true
+#define ENABLE_PREFETCH false
 #define BLOCKING_PREFETCH false
 #define PREFETCHER OBLPrefetcher
 
@@ -27,7 +27,7 @@
   StandardCacheStructure<L2_BLOCK_SIZE, L2_WAYS, L2_INDEX,                     \
                          L2_REPLACEMENT_POLICY>
 
-#define MEMORY_CYCLES 100
+#define MEMORY_CYCLES 200
 
 class Config::Impl {
 
