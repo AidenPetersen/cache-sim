@@ -33,8 +33,9 @@ project_headers = [
     'include/cache_stats.hpp',
 
     # Cache structure files
-    'include/structures/structures.hpp',
+    'include/structures/cache.hpp',
     'include/structures/replacement.hpp',
+    'include/structures/prefetcher.hpp',
 ]
 
 headers = include_directories('include')

@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-#include "structures/structures.hpp"
+#include "structures/cache.hpp"
 #include "structures/replacement.hpp"
 
 typedef enum { STRING, FLOAT, INT } StatDataTag;

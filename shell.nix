@@ -10,6 +10,7 @@ in
       python3
       meson
       ninja
+      phoronix-test-suite
     ];
   }
 

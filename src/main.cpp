@@ -22,6 +22,8 @@ int main(int argc, char *argv[]) {
   std::string input_trace_path(argv[1]);
   MemQueue mq(input_trace_path);
   Config cache = Config();
+  int iteration_limit = 1000;
+  int i = 0;
   while (true) {
     MemOp op = mq.next_access();
     if (op.type == DONE) {
@@ -29,6 +31,7 @@ int main(int argc, char *argv[]) {
     }
     MemRequest req = op2req(op.type);
     cache.request(req, op.addr, op.size);
+    i++;
   }
   std::shared_ptr<StatDataMap> stats = cache.get_stats();
   print_stat_data(stats);
