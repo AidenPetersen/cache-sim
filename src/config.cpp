@@ -1,19 +1,20 @@
 #include "config.hpp"
 #include "structures/cache.hpp"
 #include "structures/prefetcher.hpp"
+#include "structures/replacement.hpp"
 #include <iostream>
 #include <cstdio>
 
 #define L1_BLOCK_SIZE 6
 #define L1_WAYS 2
-#define L1_INDEX 1024
-#define L1_REPLACEMENT_POLICY RandomReplacement
+#define L1_INDEX 128
+#define L1_REPLACEMENT_POLICY LRUReplacement
 #define L1_HIT_CYCLES 3
 
 #define L2_BLOCK_SIZE 6
 #define L2_WAYS 8
 #define L2_INDEX 4096
-#define L2_REPLACEMENT_POLICY RandomReplacement
+#define L2_REPLACEMENT_POLICY LRUReplacement
 #define L2_HIT_CYCLES 8
 
 #define ENABLE_PREFETCH false
